@@ -262,18 +262,20 @@ ${customColorScheme}
             }`}
           />
         </div>
+        
 
-        <Progress
-          value={slider}
-          onChange={(e) => {
-            setSlider(e.target.value);
-            setDrag(e.target.value);
-          }}
-          onMouseUp={play}
-          onTouchEnd={play}
-        />
-        <div className={styles.buttons_volume_wrapper}>
-          <ButtonsBox>
+        <div className="controlsWrap">
+          <Progress
+            value={slider}
+            onChange={(e) => {
+              setSlider(e.target.value);
+              setDrag(e.target.value);
+            }}
+            onMouseUp={play}
+            onTouchEnd={play}
+          />
+
+          {/* <ButtonsBox> */}
             {/* <LoopCurrent
               src={looped ? loopCurrentBtn : loopNoneBtn}
               onClick={loop}
@@ -289,7 +291,7 @@ ${customColorScheme}
               src={shuffled ? shuffleAllBtn : shuffleNoneBtn}
               onClick={shuffle}
             /> */}
-          </ButtonsBox>
+          {/* </ButtonsBox> */}
           {/* <Volume
             value={volume}
             onChange={(e) => {
@@ -297,6 +299,7 @@ ${customColorScheme}
             }}
           /> */}
         </div>
+ 
       </PlayerTemplate>
 
       {showPlaylist && (
