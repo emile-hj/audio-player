@@ -3,7 +3,7 @@ import React from 'react'
 
 const Pause = (props) => {
   return (
-    <img className={styles.pause} src={props.src} onClick={props.onClick} />
+    <button className={styles.pause} src={props.src} onClick={props.onClick} />
   )
 }
 
