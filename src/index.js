@@ -254,7 +254,7 @@ ${customColorScheme}
         />
       )}
       <PlayerTemplate>
-        <div className={styles.title_time_wrapper}>
+        <div className="titleTimeWrapper">
           <Title title={title} />
           <Time
             time={`${!time ? "0:00" : fmtMSS(time)}/${
@@ -274,28 +274,28 @@ ${customColorScheme}
         />
         <div className={styles.buttons_volume_wrapper}>
           <ButtonsBox>
-            <LoopCurrent
+            {/* <LoopCurrent
               src={looped ? loopCurrentBtn : loopNoneBtn}
               onClick={loop}
-            />
-            <Previous src={previousBtn} onClick={previous} />
+            /> */}
+            {/* <Previous src={previousBtn} onClick={previous} /> */}
             {active ? (
               <Pause src={pauseBtn} onClick={pause} />
             ) : (
               <Play src={playBtn} onClick={play} />
             )}
-            <Next src={nextBtn} onClick={next} />
-            <Shuffle
+            {/* <Next src={nextBtn} onClick={next} /> */}
+            {/* <Shuffle
               src={shuffled ? shuffleAllBtn : shuffleNoneBtn}
               onClick={shuffle}
-            />
+            /> */}
           </ButtonsBox>
-          <Volume
+          {/* <Volume
             value={volume}
             onChange={(e) => {
               setVolume(e.target.value / 100);
             }}
-          />
+          /> */}
         </div>
       </PlayerTemplate>
 
