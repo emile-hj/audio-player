@@ -253,14 +253,21 @@ ${customColorScheme}
           placeholder={`Search ${trackList.length} tracks...`}
         />
       )}
-      <PlayerTemplate>
+      <PlayerTemplate active={active}>
         <div className="titleTimeWrapper">
-          <Title title={title} />
-          <Time
-            time={`${!time ? "0:00" : fmtMSS(time)}/${
-              !length ? "0:00" : fmtMSS(length)
-            }`}
-          />
+          <div className="animatedIcon">
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line"></div>
+          </div>
+          <div className="txtBox">
+            <Title title={title} />
+            <Time
+              time={`${!time ? "0:00" : fmtMSS(time)}/${
+                !length ? "0:00" : fmtMSS(length)
+              }`}
+            />
+          </div>
         </div>
         
 
