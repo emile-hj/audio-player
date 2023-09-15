@@ -2,7 +2,7 @@
 import React from 'react'
 
 const Play = (props) => {
-  return <button className="playPauseBtn play" onClick={props.onClick} />
+  return <button className="playPauseBtn play" onClick={props.onClick} type="button"/>
 }
 
 export default Play
