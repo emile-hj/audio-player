@@ -1,6 +1,6 @@
 {
   "name": "@emile-hj/audio-player",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "description": "React/NextJS audio player for your music, with custom controls, playlist, filters, and search functionality. Built by Madza but with tweaks by Emile HJ needed for project",
   "keywords": [
     "react",
