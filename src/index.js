@@ -138,10 +138,11 @@ ${customColorScheme}
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      if (shuffled) {
-        playlist = shufflePlaylist(playlist);
-      }
-      !looped && autoPlayNextTrack ? next() : play();
+      // if (shuffled) {
+      //   playlist = shufflePlaylist(playlist);
+      // }
+      // !looped && autoPlayNextTrack ? next() : play();
+      pause();
     }
   }, [end]);
 
