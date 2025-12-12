@@ -54,7 +54,7 @@ const colors = `html{
   }`;
 
 const Player = ({
-  trackList,
+  trackList = [],
   includeTags = true,
   includeSearch = true,
   showPlaylist = true,
@@ -87,6 +87,8 @@ ${customColorScheme}
   const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
 
   useEffect(() => {
+    if (!Array.isArray(trackList) || trackList.length === 0) return;
+    if (!trackList[curTrack]) return;
     const audio = new Audio(trackList[curTrack].url);
 
     const setAudioData = () => {
@@ -111,23 +113,31 @@ ${customColorScheme}
     audio.addEventListener("ended", setAudioEnd);
 
     setAudio(audio);
-    setTitle(trackList[curTrack].title);
+    if (trackList[curTrack]) setTitle(trackList[curTrack].title);
 
-      return () => {
-        if (audio != null) {
-          audio.pause();
-        }
-      };
-  }, []);
+    return () => {
+      if (audio != null) {
+        audio.pause();
+        audio.removeEventListener("loadeddata", setAudioData);
+        audio.removeEventListener("timeupdate", setAudioTime);
+        audio.removeEventListener("volumechange", setAudioVolume);
+        audio.removeEventListener("ended", setAudioEnd);
+      }
+      setAudio(null);
+    };
+  }, [trackList]);
 
   const tags = [];
-  trackList.forEach((track) => {
-    track.tags.forEach((tag) => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
-      }
+  if (Array.isArray(trackList)) {
+    trackList.forEach((track) => {
+      if (!track || !Array.isArray(track.tags)) return;
+      track.tags.forEach((tag) => {
+        if (!tags.includes(tag)) {
+          tags.push(tag);
+        }
+      });
     });
-  });
+  }
 
   const shufflePlaylist = (arr) => {
     if (arr.length === 1) return arr;
@@ -182,21 +192,33 @@ ${customColorScheme}
 
   useEffect(() => {
     if (audio != null) {
-      audio.src = trackList[curTrack].url;
-      setTitle(trackList[curTrack].title);
+      if (trackList[curTrack]) {
+        audio.src = trackList[curTrack].url;
+        setTitle(trackList[curTrack].title);
+      }
       play();
     }
   }, [curTrack]);
 
   const previous = () => {
+    if (!Array.isArray(playlist) || playlist.length === 0) return;
     const index = playlist.indexOf(curTrack);
+    if (index === -1) {
+      setCurTrack((curTrack = playlist[0]));
+      return;
+    }
     index !== 0
       ? setCurTrack((curTrack = playlist[index - 1]))
       : setCurTrack((curTrack = playlist[playlist.length - 1]));
   };
 
   const next = () => {
+    if (!Array.isArray(playlist) || playlist.length === 0) return;
     const index = playlist.indexOf(curTrack);
+    if (index === -1) {
+      setCurTrack((curTrack = playlist[0]));
+      return;
+    }
     index !== playlist.length - 1
       ? setCurTrack((curTrack = playlist[index + 1]))
       : setCurTrack((curTrack = playlist[0]));
@@ -208,7 +230,9 @@ ${customColorScheme}
 
   const playlistItemClickHandler = (e) => {
     const num = Number(e.currentTarget.getAttribute("data-key"));
+    if (!Array.isArray(playlist) || playlist.length === 0) return;
     const index = playlist.indexOf(num);
+    if (index === -1) return;
     setCurTrack((curTrack = playlist[index]));
     play();
   };
@@ -218,6 +242,7 @@ ${customColorScheme}
     if (isInitialFilter.current) {
       isInitialFilter.current = false;
     } else {
+      if (!Array.isArray(playlist) || playlist.length === 0) return;
       if (!playlist.includes(curTrack)) {
         setCurTrack((curTrack = playlist[0]));
       }
@@ -323,9 +348,9 @@ ${customColorScheme}
             .map((el, index) => {
               if (
                 filter.length === 0 ||
-                filter.some((filter) => el.tags.includes(filter))
+                (Array.isArray(el.tags) && filter.some((f) => el.tags.includes(f)))
               ) {
-                if (el.title.toLowerCase().includes(query.toLowerCase())) {
+                if (el.title && el.title.toLowerCase().includes(query.toLowerCase())) {
                   playlist.push(index);
                   return (
                     <PlaylistItem
@@ -333,7 +358,7 @@ ${customColorScheme}
                       key={index}
                       data_key={index}
                       title={el.title}
-                      src={el.url}
+                      src={el.url || ""}
                       onClick={playlistItemClickHandler}
                     />
                   );
