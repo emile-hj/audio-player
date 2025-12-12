@@ -113,9 +113,11 @@ ${customColorScheme}
     setAudio(audio);
     setTitle(trackList[curTrack].title);
 
-    return () => {
-      audio.pause();
-    };
+      return () => {
+        if (audio != null) {
+          audio.pause();
+        }
+      };
   }, []);
 
   const tags = [];
@@ -162,12 +164,16 @@ ${customColorScheme}
 
   const play = () => {
     setActive(true);
-    audio.play();
+    if (audio != null) {
+      audio.play();
+    }
   };
 
   const pause = () => {
     setActive(false);
-    audio.pause();
+    if (audio != null) {
+      audio.pause();
+    }
   };
 
   const loop = () => {
